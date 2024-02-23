@@ -54,7 +54,7 @@ func saveFile() {
 
 func main() {
 	myApp := app.New()
-	myWindow := myApp.NewWindow("Fyne App")
+	myWindow := myApp.NewWindow("Editor")
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(theme.FileIcon(), loadFile),
