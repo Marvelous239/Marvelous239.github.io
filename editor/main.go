@@ -12,7 +12,10 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var MainEntry = widget.NewMultiLineEntry()
+var (
+	MainEntry = widget.NewMultiLineEntry()
+	FName     = "PLACEHOLDER"
+)
 
 func loadFile() {
 	input := js.Global().Get("document").Call("createElement", "input")
@@ -26,6 +29,7 @@ func readFile(this js.Value, args []js.Value) any {
 	if file.IsNull() {
 		return nil
 	}
+	FName = file.Get("name").String()
 
 	reader := js.Global().Get("FileReader").New()
 	reader.Set("onload", js.FuncOf(func(this js.Value, args []js.Value) any {
@@ -44,7 +48,8 @@ func saveFile() {
 	link := js.Global().Get("document").Call("createElement", "a")
 	data := "data:text/plain;charset=utf-8," + encodeURIComponent.Invoke(MainEntry.Text).String()
 	link.Set("href", data)
-	link.Set("download", "subs.txt")
+	link.Set("download", FName)
+	FName = "PLACEHOLDER"
 
 	MainEntry.SetText("")
 	MainEntry.Refresh()
